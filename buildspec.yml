@@ -1,29 +1,17 @@
+
 version: 0.2
+
+env:
+  parameter-store:
+    SONARQUBE_TOKEN: "7f69a357e3bd5555b9dc7a5590238d28febbd5b4"
+    SONARQUBE_ENDPOINT: "sonarcloud.io"
 
 phases:
   install:
-    runtime-versions:
-      nodejs: 12
-      java: corretto8
     commands:
-      - npm install -g sonarqube-scanner
-      - cd devawsfrontend
-      - npm install
-  pre_build:
-    commands:
-      - echo Nothing to do in the pre_build phase...
+      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
+      - unzip sonar-scanner-cli-3.3.0.1492-linux.zip
+      - export PATH=$PATH:./sonar-scanner-3.3.0.1492-linux/bin/
   build:
     commands:
-      - echo Build started on `date`
-      - mvn install
-      - npm run coverage
-  post_build:
-    commands:
-      - echo Build completed on `date`
-      - npm run sonar
-artifacts:
-  files:
-    - '**/java-hello-world.war'
-    - 'appspec.yml'
-    - 'install.sh'
-  discard-paths: yes  
+      - sonar-scanner
