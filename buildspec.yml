@@ -4,7 +4,7 @@ phases:
   install:
     runtime-versions:
       nodejs: 12
-      java: corretto12
+      java: corretto8
     commands:
       - apt-get update
       - apt-get install -y jq
