@@ -6,6 +6,9 @@ phases:
       nodejs: 12
       java: corretto8
     commands:
+      - npm install -g sonarqube-scanner
+      - cd devawsfrontend
+      - npm install
       - apt-get update
       - apt-get install -y jq
       - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
@@ -22,13 +25,14 @@ phases:
     commands:
       - echo Build started on `date`
       - mvn install
+      - npm run coverage
   post_build:
     commands:
       - echo Build completed on `date`
+      - npm run sonar
 artifacts:
   files:
     - '**/java-hello-world.war'
     - 'appspec.yml'
     - 'install.sh'
   discard-paths: yes  
-    
