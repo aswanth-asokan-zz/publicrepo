@@ -17,11 +17,8 @@ phases:
   build:
     commands:
       - mvn test  
-      - mvn test -f pom.xml -fn
       - mvn sonar:sonar -Dsonar.login=37ee54f318e894bb05c02085e6ffa78fff2c4a60 -Dsonar.host.url=http://15.237.105.2:9000  -Dsonar.projectKey=aswanth -Dsonar.organization=aswanth-asokan
       - sleep 5
       - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=aswanth >result.json
       - cat result.json
       - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
-      - echo 'Connect to CodeCov'
-      - bash my_script.sh
